@@ -39,6 +39,7 @@ class CoolingDown(State):
             start_timer = process_time()
             test_data = Reader.read_config(self.pseudo_parameters_csv)
             test_current_pressure_pVac = test_data['test_current_pressure_pVac']
+            test_current_temperature_in_isolationskammer = test_data['test_current_temperature_in_isolationskammer']
             test_current_pressure_pPreVac = test_data['test_current_pressure_pPreVac']
             while start_timer + self.time_interval > process_time():
                 pass
@@ -49,8 +50,9 @@ class CoolingDown(State):
                                                , self.FSM.pPreVac_max
                                                , test_current_pressure_pVac
                                                , self.FSM.pVac_max
-                                               , test_current_pressure_pVac
-                                               , self.FSM.set_point_temp_stage_1)
+                                               , test_current_temperature_in_isolationskammer
+                                               , self.FSM.set_point_temp_stage_1
+                                               , self.FSM.set_point_pressure_stage_1)
 
         self.FSM.to_transition("to_measure_cooldown")
 

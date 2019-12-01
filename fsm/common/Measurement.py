@@ -95,12 +95,21 @@ class CooldownMeasurement(State):
             result = 'to_error'
             LOGGER.error('current pVac: {0} mbar, pVac_max: {1} mbar'.format(values[3], values[4]))
         # if current temperature < stage 1 temperature
-        elif values[5] < values[6]:
+        elif values[5] >= values[6]:
             result = 'to_cooldown'
             LOGGER.info('current temperature: {0} K, stage 1 temperature: {1} K'.format(values[5], values[6]))
             LOGGER.info('current pPreVac: {0} mbar, pPreVac_max: {1} mbar'.format(values[0], values[1]))
             LOGGER.info('current pVac: {0} mbar, pVac_max: {1} mbar'.format(values[3], values[4]))
         else:
+            # if pressure in isolation chamber is > set point pressure stage 1
+            if values[3] > values[7]:
+                result = 'to_cooldown'
+                LOGGER.info('Pressure in isolation chamber {0} is higher as {1}'
+                            .format(values[3], values[7]))
+            else:
+                result = 'to_error'
+                LOGGER.info('Das Ziel wurde erreicht. Es ist keine Fehlermeldung. Folgt Erweiterung...')
+
             LOGGER.info('current temperature: {0} K, stage 1 temperature: {1} K'.format(values[5], values[6]))
             LOGGER.info('current pPreVac: {0} mbar, pPreVac_max: {1} mbar'.format(values[0], values[1]))
             LOGGER.info('current pVac: {0} mbar, pVac_max: {1} mbar'.format(values[3], values[4]))

@@ -37,6 +37,7 @@ class FSM(object):
             self.data['FillWithHelium']['pressure_between_booster_pump_and_compressor_min']
         self.pVac_max = self.data['CoolingDown']['pVac_max']
         self.pPreVac_max = self.data['CoolingDown']['pPreVac_max']
+        self.set_point_pressure_stage_1 = self.data['CoolingDown']['set_point_pressure_stage_1']
         # devices
         self.valves = {}
         self.booster_pump = False
@@ -248,7 +249,8 @@ class Writer:
                            , 'current pressure pVac [mbar]'
                            , 'max pressure pVac [mbar]'
                            , 'current temperature isolation chamber [K]'
-                           , 'set-point temperature isolation chamber [K]']
+                           , 'set-point temperature isolation chamber Stage 1 [K]'
+                           , 'set-point pressure isolation chamber Stage 1 [mbar]']
 
         # todo refresh for next csv files
         header_keep_temp_constant = ['']
@@ -298,14 +300,16 @@ class Writer:
 
     @staticmethod
     def write_cooling_down_csv_file(path, time, pPreVac, max_pPreVac, pVac,
-                                    max_pVac, curr_temp_isolation_chamber, temp_isolation_chamber_set_point):
+                                    max_pVac, curr_temp_isolation_chamber
+                                    , temp_isolation_chamber_set_point, pressure_isolation_chamber_set_point):
         """ write the pPreVac, max pPreVac, pVac, max pVac,
         current tempertature in isolation chamber and the set-point temperature value in cooldown.csv file """
         try:
             with open(path, mode='a', newline='') as csv_file:
                 writer = csv.writer(csv_file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow([time, pPreVac, max_pPreVac, pVac, max_pVac
-                                    , curr_temp_isolation_chamber, temp_isolation_chamber_set_point])
+                                , curr_temp_isolation_chamber, temp_isolation_chamber_set_point
+                                , pressure_isolation_chamber_set_point])
                 LOGGER.info('date: {0}'
                             ', pPreVac: {1} mbar'
                             ', max pPreVac: {2} mbar'
@@ -313,13 +317,15 @@ class Writer:
                             ', max pVac: {4} mbar'
                             ', current temperature in isolation chamber: {5} K'
                             ', set-point temperature in isolation chamber: {6} K'
+                            ', set-point pressure in isolation chamber: {7} mbar'
                             .format(time
                                     , pPreVac
                                     , max_pPreVac
                                     , pVac
                                     , max_pVac
                                     , curr_temp_isolation_chamber
-                                    , temp_isolation_chamber_set_point))
+                                    , temp_isolation_chamber_set_point
+                                    , pressure_isolation_chamber_set_point))
         except Exception as ex:
             LOGGER.error('Exception: {0}. Method: write_cooling_down_csv_file'.format(ex))
         finally:
