@@ -32,11 +32,13 @@ class MeasurementOfPrecooling(State):
                                                         , self.FSM.setpoint_temperature_in_tank)
             else:
                 result = "to_error"
+                LOGGER.error('Current pressure in tank: {0} mbar. The pressure in tank should be higher as {1} mbar'
+                             .format(values[1], self.FSM.min_pressure_in_tank))
 
         self.FSM.to_transition(result)
 
     def exit(self):
-        LOGGER.info('<=== Measure Precooling Stete exit')
+        LOGGER.info('<=== Measure Precooling State exit')
 
 
 class FillLevelMeasurement(State):

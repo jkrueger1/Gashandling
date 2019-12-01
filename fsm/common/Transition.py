@@ -9,4 +9,4 @@ class Transition(object):
         self.to_state = to_state
 
     def execute(self):
-        LOGGER.info('Transitioning ...')
+        LOGGER.info('Transitioning to state {0} ...'.format(self.to_state))

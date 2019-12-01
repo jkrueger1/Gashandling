@@ -126,22 +126,23 @@ class Reader:
                     if cur_pressure > set_point_pressure_in_tank:
                         LOGGER.info('Pressure in tank: {0} mbar'.format(cur_pressure))
                         if preview_temperature == 0.0:
-                            LOGGER.info('preview temperature is equals current temperature {0}'
+                            LOGGER.info('preview temperature is equals current temperature {0} K'
                                         .format(current_temperature))
                         elif preview_temperature >= current_temperature:
-                            LOGGER.info('preview temperature {0} >= current temperature {1}'
+                            LOGGER.info('preview temperature {0} K >= current temperature {1} K'
                                         .format(preview_temperature, current_temperature))
                         else:
-                            LOGGER.error('{0} < {1}'.format(preview_temperature, current_temperature))
+                            LOGGER.error('preview temperature {0} K < current temperature {1} K'
+                                         .format(preview_temperature, current_temperature))
 
                     preview_temperature = current_temperature
                 csv_file.close()
                 if current_temperature >= float(set_point_temperature):
                     result = 'to_precool'
-                    LOGGER.info('current temperature in Tank {0} is greater that set point temperature {1}.'
+                    LOGGER.info('current temperature in Tank {0} K is greater that set point temperature {1} K.'
                                 .format(current_temperature, set))
                 else:
-                    LOGGER.info('current temperature is {0}'.format(current_temperature))
+                    LOGGER.info('current temperature is {0} K'.format(current_temperature))
                     result = 'to_error'
         except Exception as ex:
             LOGGER.error('Exception: {0}. Method: read_precooling_csv'.format(ex))
@@ -233,7 +234,7 @@ class Writer:
     @staticmethod
     def reset_csv_file():
         header_precooling = ['date'
-                             , 'current pressure'
+                             , 'current pressure [mbar]'
                              , 'current temperature Tank [K]'
                              , 'set-point temperature Tank [K]']
 
@@ -281,6 +282,9 @@ class Writer:
             with open(path, mode='a', newline='') as csv_file:
                 writer = csv.writer(csv_file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 pressure_difference = tank_pressure - current_pressure
+                LOGGER.info('Calculate pressure difference in tank')
+                LOGGER.info('pressure in tank {0} mbar - current pressure {1} mbar = pressure difference {2} mbar'
+                            .format(tank_pressure, current_pressure, pressure_difference))
                 writer.writerow([time, pressure_difference, pOut])
                 LOGGER.info('date: {0}'
                             ', pressure difference: {1} mbar'

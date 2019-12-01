@@ -5,16 +5,16 @@
 current_temperature: 3
 # in mbar.
 # Dieser Wert wird von NICOS angelesen. Der Drucksensensor im Tank
-current_pressure: 100
+current_pressure: 230
 
 # !!!! test_current_pressure < current_pressure !!!!!
 
 # FILL WITH HELIUM
 # current pressure in tank. Dieser Wert wird von NICOS abgelesen.
-test_current_pressure: 100
+test_current_pressure: 20
 # current pressure between vorpump and compressor.
 # Dieser Wert wird von NICOS abgelesen.
-test_pressure_on_pOut: 90
+test_pressure_on_pOut: 200
 
 # COOLING DOWN
 # Dieser Wert wird von NICOS abgelesen.

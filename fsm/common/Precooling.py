@@ -10,7 +10,7 @@ class Precooling(State):
     """ wird eine bestimmte Zeit vorgekühlt"""
     def __init__(self, FSM):
         super(Precooling, self).__init__(FSM)
-        self.pseude_parameter_yml = self.FSM.data['FilePaths']['pseudoparameters_yml']
+        self.pseudo_parameter_yml = self.FSM.data['FilePaths']['pseudoparameters_yml']
         self.precooldown_csv = self.FSM.data['FilePaths']['precooling_csv']
 
     def enter(self):
@@ -20,13 +20,12 @@ class Precooling(State):
 
     def execute(self):
         LOGGER.info('Precooling execute method')
-        LOGGER.info(self.state_timer)
         self.state_timer = self.state_timer + process_time()
 
         while self.state_timer > process_time():
             start_time = process_time()
             # todo read test values from NICOS
-            test_data = Reader.read_config(self.pseude_parameter_yml)
+            test_data = Reader.read_config(self.pseudo_parameter_yml)
             LOGGER.info('test data: {0}'.format(test_data))
             LOGGER.info('>>> Get feedback for P and T')
             # interval zwischen die einzelne Messungen

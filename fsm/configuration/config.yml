@@ -4,10 +4,10 @@ Main:
     global_time_interval: 1
 Precooling:
     # Running time of state in seconds
-    precooling_timer: 60
+    precooling_timer: 10
     # values (Pressure & Temperature) recording interval in sec.
     # If time_interval=1 means, every seconds is taken feedback from sensor and written into *.csv file
-    time_interval: 10
+    time_interval: 1
     # in Kelvin (sollwert)
     Einsatztemperatur: 4.0
     # minimal pressure in tank mbar (sollwert)
@@ -20,9 +20,9 @@ Precooling:
     k: 1
 FillWithHelium:
     # in sec
-    time_interval: 10
+    time_interval: 2
     # in sec
-    fill_timer: 60
+    fill_timer: 10
     # open valve
     valves:
         - 2
@@ -33,7 +33,7 @@ FillWithHelium:
         - 13
         - 14
     # in mbar (sollwert). Pressure difference in tank
-    pressure_difference: 200
+    pressure_difference: 100
     # in mbar (sollwert) pOut
     # if pOut > pressure_between_booster_pump_and_compressor_max -> V13 closed
     pressure_between_booster_pump_and_compressor_max: 1000

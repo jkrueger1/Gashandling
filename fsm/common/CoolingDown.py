@@ -27,7 +27,7 @@ class CoolingDown(State):
         LOGGER.info(self.state_timer)
         self.state_timer = self.state_timer + process_time()
         LOGGER.info(self.state_timer)
-        valves = self.data['CoolingDown']['valves']
+        valves = self.FSM.data['CoolingDown']['valves']
 
         if not self.open_valves:
             self.open_valves = True

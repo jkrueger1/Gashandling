@@ -13,7 +13,8 @@ class FillWithHelium(State):
         super(FillWithHelium, self).__init__(FSM)
         self.open_valves = False
         self.pOut = 0.0
-        self.pseudo_parameters_csv = self.FSM.data['FilePaths']['fillwithhelium_csv']
+        self.pseudo_parameter_yml = self.FSM.data['FilePaths']['pseudoparameters_yml']
+        self.fillwithhelium_csv = self.FSM.data['FilePaths']['fillwithhelium_csv']
 
     def enter(self):
         LOGGER.info('====> FillWithHelium enter')
@@ -23,9 +24,9 @@ class FillWithHelium(State):
 
     def execute(self):
         LOGGER.info('FillWithHelium execute')
-        LOGGER.info(self.state_timer)
+        LOGGER.info('State timer : {0}'.format(self.state_timer))
         self.state_timer = self.state_timer + process_time()
-        LOGGER.info(self.state_timer)
+        LOGGER.info('State timer + process time: {0}'.format(self.state_timer))
         valves = self.FSM.data['FillWithHelium']['valves']
 
         # open the valves
@@ -42,13 +43,13 @@ class FillWithHelium(State):
         while self.state_timer > process_time():
             start_timer = process_time()
             LOGGER.info('>>> Get feedback')
-            test_data = Reader.read_config(self.pseudo_parameters_csv)
+            test_data = Reader.read_config(self.pseudo_parameter_yml)
             while start_timer + self.time_interval > process_time():
                 pass
             time = datetime.now().strftime('%Y%d%m %H:%M:%S')
             test_current_pressure = test_data['test_current_pressure']
             self.pOut = test_data['test_pressure_on_pOut']
-            Writer.write_fill_with_helium_csv_file(self.pseudo_parameters_csv
+            Writer.write_fill_with_helium_csv_file(self.fillwithhelium_csv
                                                    , time, self.FSM.current_pressure, test_current_pressure, self.pOut)
             # todo get pOut value from NICOS
             if self.pOut >= self.FSM.pressure_between_booster_pump_and_compressor_max:
