@@ -125,7 +125,7 @@ class Reader:
                     current_temperature = float(row[2])
                     if cur_pressure > set_point_pressure_in_tank:
                         LOGGER.info('Pressure in tank: {0} mbar'.format(cur_pressure))
-                        if preview_temperature is 0.0:
+                        if preview_temperature == 0.0:
                             LOGGER.info('preview temperature is equals current temperature {0}'
                                         .format(current_temperature))
                         elif preview_temperature >= current_temperature:
