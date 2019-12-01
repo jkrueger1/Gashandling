@@ -1,0 +1,66 @@
+Main:
+    # global running time in seconds. Running time of FMS
+    global_running_time: 600
+    global_time_interval: 1
+Precooling:
+    # Running time of state in seconds
+    precooling_timer: 60
+    # values (Pressure & Temperature) recording interval in sec.
+    # If time_interval=1 means, every seconds is taken feedback from sensor and written into *.csv file
+    time_interval: 10
+    # in Kelvin (sollwert)
+    Einsatztemperatur: 4.0
+    # minimal pressure in tank mbar (sollwert)
+    MinPressureInTank: 220.0
+    # temperatur formel T(t) = Tu + (To -Tu).e^-k*t
+    # To - anfangstemperatur
+    # Tu - umgebungstemperatur
+    # t - zeit ( process time? )
+    # k - spezifische konstante des akbühlprozesses
+    k: 1
+FillWithHelium:
+    # in sec
+    time_interval: 10
+    # in sec
+    fill_timer: 60
+    # open valve
+    valves:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 13
+        - 14
+    # in mbar (sollwert). Pressure difference in tank
+    pressure_difference: 200
+    # in mbar (sollwert) pOut
+    # if pOut > pressure_between_booster_pump_and_compressor_max -> V13 closed
+    pressure_between_booster_pump_and_compressor_max: 1000
+    # in mbar (sollwert) pOut
+    # if pOut < pressure_between_booster_pump_and_compressor_min -> V13 reopened
+    pressure_between_booster_pump_and_compressor_min: 300
+CoolingDown:
+    # in sec
+    cooldown_timer: 60
+    # in sec
+    time_interval: 10
+    valves:
+      - 13
+      - 14
+      - 15
+    # in mbar. Druck des Isolationsvakuums (max)
+    pVac_max: 0.5
+    # in mbar. Druck vor Ventil 15 (max)
+    pPreVac_max: 0.001
+    # in Kelvin
+    # first cool down stage temperature set-point
+    set_point_temp_stage_1: 2
+FilePaths:
+    precooling_csv: fsm/data/precooldown.csv
+    fillwithhelium_csv: fsm/data/fillwithhelium.csv
+    cooldown_csv: fsm/data/cooldown.csv
+    pseudoparameters_yml: fsm/configuration/PseudoParameters.yml
+
+
+
