@@ -1,10 +1,13 @@
-import sys
-from time import process_time
-from fsm.common.logging import *
-import yaml
+
 import csv
 import math
-LOGGER = MyLogger.__call__().get_logger()
+from time import process_time
+
+import yaml
+
+from fsm.common.logging import MyLogger
+
+LOGGER = MyLogger().get_logger()
 
 
 class FSM(object):

@@ -1,14 +1,15 @@
-from fsm.common.FSM import *
-from fsm.common.Initialize import *
-from fsm.common.Measurement import MeasurementOfPrecooling, FillLevelMeasurement, CooldownMeasurement
-from fsm.common.Precooling import *
-from fsm.common.CoolingDown import *
-from fsm.common.Error import *
-from fsm.common.Transition import *
-from fsm.common.FillWithHelium import *
-from fsm.common.logging import *
+from fsm.common.CoolingDown import CoolingDown
+from fsm.common.Error import Error
+from fsm.common.FillWithHelium import FillWithHelium
+from fsm.common.FSM import FSM
+from fsm.common.Initialize import Initialize
+from fsm.common.logging import MyLogger
+from fsm.common.Measurement import CooldownMeasurement, FillLevelMeasurement, \
+    MeasurementOfPrecooling
+from fsm.common.Precooling import Precooling
+from fsm.common.Transition import Transition
 
-LOGGER = MyLogger.__call__().get_logger()
+LOGGER = MyLogger().get_logger()
 
 
 Char = type("Char", (object, ), {})

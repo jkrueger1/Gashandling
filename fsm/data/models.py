@@ -1,5 +1,6 @@
-from fsm.common.logging import *
-LOGGER = MyLogger.__call__().get_logger()
+from fsm.common.logging import MyLogger
+
+LOGGER = MyLogger().get_logger()
 
 
 class Device(object):

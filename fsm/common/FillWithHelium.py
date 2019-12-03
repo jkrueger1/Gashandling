@@ -1,10 +1,12 @@
-from fsm.common.State import *
-from fsm.common.logging import *
-from fsm.common.FSM import Reader, Writer
-from fsm.data.models import Device
 from datetime import datetime
+from time import process_time
 
-LOGGER = MyLogger.__call__().get_logger()
+from fsm.common.FSM import Reader, Writer
+from fsm.common.logging import MyLogger
+from fsm.common.State import State
+from fsm.data.models import Device
+
+LOGGER = MyLogger().get_logger()
 
 
 class FillWithHelium(State):
