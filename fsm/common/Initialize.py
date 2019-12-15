@@ -1,3 +1,5 @@
+from fsm.common.State import State
+from fsm.common.logging import MyLogger
 from fsm.data.models import Device
 
 LOGGER = MyLogger().get_logger()
