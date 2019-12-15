@@ -1,5 +1,7 @@
-from fsm.common.Cooler import *
-from fsm.common.logging import *
+from time import process_time
+from fsm.common.Cooler import Cooler
+from fsm.common.logging import MyLogger
+from fsm.common.FSM import Writer, Reader
 
 
 LOGGER = MyLogger.__call__().get_logger()

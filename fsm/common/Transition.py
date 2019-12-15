@@ -1,4 +1,4 @@
-from fsm.common.logging import *
+from fsm.common.logging import MyLogger
 
 LOGGER = MyLogger.__call__().get_logger()
 

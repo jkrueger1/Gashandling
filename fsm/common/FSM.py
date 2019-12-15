@@ -1,6 +1,6 @@
 import sys
 from time import process_time
-from fsm.common.logging import *
+from fsm.common.logging import MyLogger
 import yaml
 import csv
 import math

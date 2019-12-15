@@ -1,5 +1,5 @@
-from fsm.common.State import *
-from fsm.common.logging import *
+from fsm.common.State import State
+from fsm.common.logging import MyLogger
 from fsm.common.FSM import Reader, Writer
 from fsm.data.models import Device
 from datetime import datetime
