@@ -1,10 +1,9 @@
 from time import process_time
 from fsm.common.Cooler import Cooler
+from fsm.common.FSM import Reader, Writer
 from fsm.common.logging import MyLogger
-from fsm.common.FSM import Writer, Reader
 
-
-LOGGER = MyLogger.__call__().get_logger()
+LOGGER = MyLogger().get_logger()
 # DEBUG: Detailed information, typically of interest only when diagnosing problems.
 
 # INFO: Confirmation that things are working as expected.

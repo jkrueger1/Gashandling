@@ -1,8 +1,8 @@
-from fsm.common.State import *
-from fsm.common.logging import *
 from fsm.common.FSM import Reader
+from fsm.common.logging import MyLogger
+from fsm.common.State import State
 
-LOGGER = MyLogger.__call__().get_logger()
+LOGGER = MyLogger().get_logger()
 
 
 class MeasurementOfPrecooling(State):

@@ -1,9 +1,11 @@
-from fsm.common.State import State
-from fsm.common.logging import MyLogger
-from fsm.common.FSM import Reader
 from datetime import datetime
-from fsm.common.FSM import Writer
-LOGGER = MyLogger.__call__().get_logger()
+from time import process_time
+
+from fsm.common.FSM import Reader, Writer
+from fsm.common.logging import MyLogger
+from fsm.common.State import State
+
+LOGGER = MyLogger().get_logger()
 
 
 class Precooling(State):
