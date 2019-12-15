@@ -11,7 +11,7 @@ current_pressure: 230
 
 # FILL WITH HELIUM
 # current pressure in tank. Dieser Wert wird von NICOS abgelesen.
-test_current_pressure: 20
+test_current_pressure: 10
 # current pressure between vorpump and compressor.
 # Dieser Wert wird von NICOS abgelesen.
 test_pressure_on_pOut: 200
@@ -19,9 +19,9 @@ test_pressure_on_pOut: 200
 # COOLING DOWN
 # Dieser Wert wird von NICOS abgelesen. 
 # Druck in der Isolationskammer
-test_current_pressure_pVac: 0.1
+test_current_pressure_pVac: 0.000001
 # Dieser Wert wird von NICOS abgelesen.
 test_current_pressure_pPreVac: 0.0002
 # in Kelvin
-test_current_temperature_in_isolationskammer: 1.3
+test_current_temperature_in_isolationskammer: 1.8
 

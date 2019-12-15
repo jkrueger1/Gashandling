@@ -1,8 +1,5 @@
 import sys
 
-from fsm.common.logging import MyLogger
-from fsm.common.State import State
-
 LOGGER = MyLogger().get_logger()
 
 

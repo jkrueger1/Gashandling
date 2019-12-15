@@ -1,5 +1,4 @@
 from time import process_time
-
 from fsm.common.Cooler import Cooler
 from fsm.common.FSM import Reader, Writer
 from fsm.common.logging import MyLogger
