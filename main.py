@@ -1,10 +1,12 @@
 from time import process_time
-from fsm.common.Cooler import Cooler
-from fsm.common.FSM import Reader, Writer
+
+from fsm.common.fsm import Reader, Writer
+from fsm.common.cooler import Cooler
 from fsm.common.logging import MyLogger
 
 LOGGER = MyLogger().get_logger()
-# DEBUG: Detailed information, typically of interest only when diagnosing problems.
+# DEBUG: Detailed information, typically of interest only when diagnosing
+# problems.
 
 # INFO: Confirmation that things are working as expected.
 
@@ -12,9 +14,11 @@ LOGGER = MyLogger().get_logger()
 # or indicative of some problem in the near future (e.g. ‘disk space low’).
 # The software is still working as expected.
 
-# ERROR: Due to a more serious problem, the software has not been able to perform some function.
+# ERROR: Due to a more serious problem, the software has not been able to
+# perform some function.
 
-# CRITICAL: A serious error, indicating that the program itself may be unable to continue running.
+# CRITICAL: A serious error, indicating that the program itself may be unable
+# to continue running.
 
 # todo at the start clear the *.csv files
 if __name__ == "__main__":
@@ -24,7 +28,7 @@ if __name__ == "__main__":
     Writer.reset_csv_file()
     cool = Cooler()
 # ==================================================
-    data = Reader.read_config('fsm/configuration/config.yml')
+    data = Reader.read_config('Gashandling/fsm/configuration/config.yml')
     # Global time interval for FMS
     time_interval = data['Main']['global_time_interval']
     # Running time of FSM in seconds

@@ -4,7 +4,7 @@ from time import process_time
 
 import yaml
 
-from fsm.common.logging import MyLogger
+from .logging import MyLogger
 
 LOGGER = MyLogger().get_logger()
 
@@ -13,7 +13,7 @@ class FSM(object):
     """ FSM parameter """
 
     def __init__(self, character):
-        self.char = character
+        # self.char = character
         self.states = {}
         self.transitions = {}
         self.cur_state = None
@@ -21,7 +21,7 @@ class FSM(object):
         self.trans = None
         # todo fsm parameter
         # temperature parameters
-        self.data = Reader.read_config('fsm/configuration/config.yml')
+        self.data = Reader.read_config('Gashandling/fsm/configuration/config.yml')
         self.setpoint_temperature_in_tank = self.data['Precooling']['Einsatztemperatur']
         self.temp_max = None
         self.setpoint_temp = None
@@ -44,29 +44,30 @@ class FSM(object):
         self.valves = {}
         self.booster_pump = False
         self.compressor = False
+        self.log = MyLogger().get_logger()
 
     def add_transition(self, trans_name, transition):
         self.transitions[trans_name] = transition
-        LOGGER.info('FSM method add_transition trans name: {0}, transition: {1}'.format(trans_name, transition.to_state))
+        self.log.info('FSM method add_transition trans name: {0}, transition: {1}'.format(trans_name, transition.to_state))
 
     def add_state(self, state_name, state):
         self.states[state_name] = state
-        LOGGER.info('FSM method add_state state name: {0}, preview state: {1}, current state: {2}'
-                    .format(state_name, state.FSM.preview_state, state.FSM.cur_state))
+        self.log.info('FSM method add_state state name: {0}, preview state: {1}, current state: {2}'
+                      .format(state_name, state.fsm.preview_state, state.fsm.cur_state))
 
     def set_state(self, state_name):
         self.preview_state = self.cur_state
         self.cur_state = self.states[state_name]
-        LOGGER.info('FSM method set_state state name: {0}'.format(state_name))
+        self.log.info('FSM method set_state state name: {0}'.format(state_name))
 
     def to_transition(self, to_trans):
         self.trans = self.transitions[to_trans]
-        LOGGER.info('FSM method to_transition to trans: {0}'.format(to_trans))
+        self.log.info('FSM method to_transition to trans: {0}'.format(to_trans))
 
     def execute(self):
-        LOGGER.info('>> FSM execute')
+        self.log.info('>> FSM execute')
         if self.trans:
-            LOGGER.info('FSM execute trans: {0}'.format(self.trans.to_state))
+            self.log.info('FSM execute trans: {0}'.format(self.trans.to_state))
             self.cur_state.exit()
             self.trans.execute()
             self.set_state(self.trans.to_state)
@@ -210,7 +211,7 @@ class Writer:
     def write_csv(path, date_time, cur_pressure, cur_temp, set_point_temp, initial_temp):
         """ write the current pressure and temperature in tank. State Precooling """
         try:
-            data = Reader.read_config('fsm/configuration/config.yml')
+            data = Reader.read_config('Gashandling/fsm/configuration/config.yml')
             init_temperature = float(initial_temp)
             if init_temperature == 0:
                 init_temperature = cur_temp
@@ -226,40 +227,46 @@ class Writer:
                             ', current pressure: {1} mbar'
                             ', current temperature: {2} K'
                             ', set-point temperature: {3} K'
-                            .format(date_time
-                                    , cur_pressure
-                                    , cur_temp
-                                    , set_point_temp))
+                            .format(date_time,
+                                    cur_pressure,
+                                    cur_temp,
+                                    set_point_temp))
             csv_file.close()
         except Exception as ex:
             LOGGER.error('Exception: {0}. Method: write_csv'.format(ex))
 
     @staticmethod
     def reset_csv_file():
-        header_precooling = ['date'
-                             , 'current pressure [mbar]'
-                             , 'current temperature Tank [K]'
-                             , 'set-point temperature Tank [K]']
+        header_precooling = [
+            'date',
+            'current pressure [mbar]',
+            'current temperature Tank [K]',
+            'set-point temperature Tank [K]',
+        ]
 
-        header_fillwithhelium = ['date'
-                                 , 'pressure difference'
-                                 , 'pOut']
+        header_fillwithhelium = [
+            'date',
+            'pressure difference',
+            'pOut',
+        ]
 
-        header_cooldown = ['date'
-                           , 'current pressure pPreVac [mbar]'
-                           , 'max pressure pPreVac [mbar]'
-                           , 'current pressure pVac [mbar]'
-                           , 'max pressure pVac [mbar]'
-                           , 'current temperature isolation chamber [K]'
-                           , 'set-point temperature isolation chamber Stage 1 [K]'
-                           , 'set-point pressure isolation chamber Stage 1 [mbar]']
+        header_cooldown = [
+            'date',
+            'current pressure pPreVac [mbar]',
+            'max pressure pPreVac [mbar]',
+            'current pressure pVac [mbar]',
+            'max pressure pVac [mbar]',
+            'current temperature isolation chamber [K]',
+            'set-point temperature isolation chamber Stage 1 [K]',
+            'set-point pressure isolation chamber Stage 1 [mbar]',
+        ]
 
         # todo refresh for next csv files
         header_keep_temp_constant = ['']
         header_warm_up = ['']
 
         try:
-            data = Reader.read_config('fsm/configuration/config.yml')
+            data = Reader.read_config('Gashandling/fsm/configuration/config.yml')
             precooldown_csv = data['FilePaths']['precooling_csv']
             fillwithhelium_csv = data['FilePaths']['fillwithhelium_csv']
             cooldown_csv = data['FilePaths']['cooldown_csv']
@@ -290,11 +297,11 @@ class Writer:
                 LOGGER.info('pressure in tank {0} mbar - current pressure {1} mbar = pressure difference {2} mbar'
                             .format(tank_pressure, current_pressure, pressure_difference))
                 writer.writerow([time, pressure_difference, pOut])
-                LOGGER.info('date: {0}'
-                            ', pressure difference: {1} mbar'
-                            ', pOut: {2} mbar'.format(time
-                                                      , pressure_difference
-                                                      , pOut))
+                LOGGER.info('date: {0}, '
+                            'pressure difference: {1} mbar, '
+                            'pOut: {2} mbar'.format(time,
+                                                    pressure_difference,
+                                                    pOut))
         except Exception as ex:
             LOGGER.error('Exception: {0}. Method: write_fill_with_helium_csv_file'.format(ex))
         finally:
@@ -302,16 +309,16 @@ class Writer:
 
     @staticmethod
     def write_cooling_down_csv_file(path, time, pPreVac, max_pPreVac, pVac,
-                                    max_pVac, curr_temp_isolation_chamber
-                                    , temp_isolation_chamber_set_point, pressure_isolation_chamber_set_point):
+                                    max_pVac, curr_temp_isolation_chamber,
+                                    temp_isolation_chamber_set_point, pressure_isolation_chamber_set_point):
         """ write the pPreVac, max pPreVac, pVac, max pVac,
         current tempertature in isolation chamber and the set-point temperature value in cooldown.csv file """
         try:
             with open(path, mode='a', newline='') as csv_file:
                 writer = csv.writer(csv_file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                writer.writerow([time, pPreVac, max_pPreVac, pVac, max_pVac
-                                , curr_temp_isolation_chamber, temp_isolation_chamber_set_point
-                                , pressure_isolation_chamber_set_point])
+                writer.writerow([time, pPreVac, max_pPreVac, pVac, max_pVac,
+                                 curr_temp_isolation_chamber, temp_isolation_chamber_set_point,
+                                 pressure_isolation_chamber_set_point])
                 LOGGER.info('date: {0}'
                             ', pPreVac: {1} mbar'
                             ', max pPreVac: {2} mbar'
@@ -320,14 +327,14 @@ class Writer:
                             ', current temperature in isolation chamber: {5} K'
                             ', set-point temperature in isolation chamber: {6} K'
                             ', set-point pressure in isolation chamber: {7} mbar'
-                            .format(time
-                                    , pPreVac
-                                    , max_pPreVac
-                                    , pVac
-                                    , max_pVac
-                                    , curr_temp_isolation_chamber
-                                    , temp_isolation_chamber_set_point
-                                    , pressure_isolation_chamber_set_point))
+                            .format(time,
+                                    pPreVac,
+                                    max_pPreVac,
+                                    pVac,
+                                    max_pVac,
+                                    curr_temp_isolation_chamber,
+                                    temp_isolation_chamber_set_point,
+                                    pressure_isolation_chamber_set_point))
         except Exception as ex:
             LOGGER.error('Exception: {0}. Method: write_cooling_down_csv_file'.format(ex))
         finally:

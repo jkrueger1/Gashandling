@@ -1,19 +1,17 @@
 from fsm.common.logging import MyLogger
 
-LOGGER = MyLogger().get_logger()
-
 
 class Device(object):
     def __init__(self, name, status):
-        self.name = name
-        self.status = status
+        self._name = name
+        self._status = status
+        self.log = MyLogger().get_logger()
         # todo get feedback from device
 
-    def change_status(self, name, status):
-        self.name = name
-        self.status = status
-        LOGGER.info('Device: {0}, Status: {1}'.format(name, status))
+    def move(self, status):
+        self._status = status
+        self.log.info('Device: {0}, Status: {1}'.format(self._name, self._status))
         # todo change the status of device
 
-    def get_status(self):
-        return self.status
+    def read(self):
+        return self._status
