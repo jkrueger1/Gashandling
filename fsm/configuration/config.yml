@@ -59,10 +59,10 @@ CoolingDown:
     # first cool stage pressure set-point mbar
     set_point_pressure_stage_1: 0.0005
 FilePaths:
-    precooling_csv: fsm/data/precooldown.csv
-    fillwithhelium_csv: fsm/data/fillwithhelium.csv
-    cooldown_csv: fsm/data/cooldown.csv
-    pseudoparameters_yml: fsm/configuration/PseudoParameters.yml
+    precooling_csv: precooldown.csv
+    fillwithhelium_csv: fillwithhelium.csv
+    cooldown_csv: cooldown.csv
+    pseudoparameters_yml: Gashandling/fsm/configuration/PseudoParameters.yml
 
 
 
